@@ -1,0 +1,34 @@
+#!/usr/bin/env node --harmony
+'use strict'
+
+const program = require('commander');
+const colors=require('colors');
+
+console.log(colors.bgCyan('欢迎使用dbees-pub发布工具！'));
+
+process.env.NODE_PATH = __dirname + '/../node_modules/';
+
+program.version(require('../package').version);
+
+program.usage('<command>');
+
+program
+  .command('pub')
+  .description('发布文件到oss')
+  .alias('p')
+  .action(() => {
+    require('../command/pub')();
+  });
+program
+  .command('init')
+  .description('初始化publish.config.js')
+  .alias('i')
+  .action(() => {
+    require('../command/init')();
+  });
+
+program.parse(process.argv);
+
+if (!program.args.length) {
+  program.help();
+}
