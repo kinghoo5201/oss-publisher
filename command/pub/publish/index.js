@@ -21,7 +21,8 @@ module.exports = (
   mode,
   versionPos = '-z',
   useTag = false,
-  buildCommand = ''
+  buildCommand = '',
+  commitMessage = ''
 ) => {
   const pkg = require(path.resolve('./', './package.json'));
   const config = require(path.resolve('./', './publish.config.js'));
@@ -123,7 +124,15 @@ module.exports = (
 
   const gitOpt = () => {
     try {
-      execSync(`npm run commit`);
+      if (commitMessage) {
+        execSync(
+          `git add . && git commit -m \"${commitMessage}\" && ( ( git pull && git push && echo \"提交成功\" )|| ( git reset HEAD && echo \"pull错误，已重置\" ) )`
+        );
+      } else {
+        execSync(
+          `git add . && git commit -m \"auto commit with shell\" && ( ( git pull && git push && echo \"提交成功\" )|| ( git reset HEAD && echo \"pull错误，已重置\" ) )`
+        );
+      }
     } catch (e) {
       console.log('无更新或者未提交：npm run commit');
     }

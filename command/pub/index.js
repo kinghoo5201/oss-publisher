@@ -29,6 +29,7 @@ module.exports = () => {
     }
     let mode = yield prompt('请输入发布环境[预发(默认)：-n]|[正式：-p]: ');
     const buildCommand = yield prompt('npm run build 命令参数，没有可以跳过: ');
+    const commitMessage=yield prompt('请输入commit提交 message:');
     mode = mode || '-n';
     let versionPos;
     let useTag = false;
@@ -40,6 +41,6 @@ module.exports = () => {
       useTag = yield prompt(`是否使用Tag[y|n]:`);
       useTag = useTag.toLowerCase() === 'y' ? true : false;
     }
-    publish(mode, versionPos, useTag, buildCommand);
+    publish(mode, versionPos, useTag, buildCommand, commitMessage);
   });
 };
