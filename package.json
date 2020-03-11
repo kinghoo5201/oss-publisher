@@ -1,6 +1,6 @@
 {
   "name": "dbees-pub",
-  "version": "1.4.1",
+  "version": "1.4.2",
   "description": "oss 发布工具",
   "main": "index.js",
   "scripts": {
