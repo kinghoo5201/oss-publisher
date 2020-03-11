@@ -7,12 +7,15 @@ const configTpl = `
 module.exports = {
   // oss登录配置
   ossConfig: {
+    // oss域名
+    // endpoint: '',
     // oss区域
     // region: '',
     // accessKeyId: '',
     // accessKeySecret: '',
     // 目录节点
-    // bucket: ''
+    // bucket: '',
+    // 其他配置参考官网传入，使用对象解构传入
   },
   /** 发布到oss的目录，注意，发布前一定要检查是否有同名目录，否则会覆盖 */
   publishPath: '',
@@ -34,7 +37,7 @@ module.exports = {
 `;
 
 module.exports = () => {
-  co(function*() {
+  co(function* () {
     if (fs.existsSync('./publish.config.js')) {
       console.log(colors.bgBlue('publish.config.js文件已存在！'));
       process.exit(0);

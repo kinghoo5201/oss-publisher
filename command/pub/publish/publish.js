@@ -9,10 +9,7 @@ const config = require(path.resolve('./', './publish.config'));
 module.exports = class Publish {
   constructor() {
     this.client = new OSS({
-      region: config.ossConfig.region,
-      accessKeyId: config.ossConfig.accessKeyId,
-      accessKeySecret: config.ossConfig.accessKeySecret,
-      bucket: config.ossConfig.bucket
+      ...config.ossConfig
     });
     console.log(colors.bgGreen('连接 oss 成功！！'));
   }
