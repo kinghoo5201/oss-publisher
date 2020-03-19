@@ -165,20 +165,20 @@ module.exports = (
       console.log(
         colors.green(`文件发布地址：
   ${files
-    .map(item => {
-      return `${config.cdnRoot}${pubPath}/${item}`;
-    })
-    .join('\n')}
+            .map(item => {
+              return `${config.cdnRoot}${pubPath}/${item}`;
+            })
+            .join('\n')}
       `)
       );
     }
+    gitOpt();
     if (mode === '-p' && flag) {
       if (useTag) {
         execSync(`git tag v${version} && git push origin v${version}`);
       }
       await request(version);
     }
-    gitOpt();
     process.exit(0);
   };
 
