@@ -17,7 +17,7 @@ const { readDir } = require('./util');
 const request = require('./request');
 const _ = require('lodash');
 
-module.exports = (
+module.exports = async (
   mode,
   versionPos = '-z',
   useTag = false,
@@ -45,6 +45,7 @@ module.exports = (
     )
   );
   gitCheck();
+  await config.preBuild(mode, buildCommand, commitMessage);
   build(mode, buildCommand);
 
   if (!config.publishPath) {

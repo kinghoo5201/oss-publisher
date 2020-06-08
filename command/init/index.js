@@ -25,6 +25,10 @@ module.exports = {
   cdnRoot: '',
   /** 选择发布分支 */
   pubBranch: 'develop',
+  // build之前的操作，可以用于一些特殊操作
+  preBuild:async (mode, buildCommand, commitMessage)=>{
+
+  },
   // 发布之后操作，如果是函数则直接运行函数（async函数）
   afterPublish: {
     /** version api:后端接收版本信息的接口 */
