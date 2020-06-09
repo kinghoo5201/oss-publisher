@@ -44,8 +44,9 @@ module.exports = async (
       `正在进入${colors.blue(mode === '-n' ? '预发布' : '正式版本')} 发布环节`
     )
   );
+  const pkgVersion = fixVersion();
   gitCheck();
-  await config.preBuild(mode, buildCommand, commitMessage);
+  await config.preBuild(mode, pkgVersion);
   build(mode, buildCommand);
 
   if (!config.publishPath) {
@@ -70,7 +71,7 @@ module.exports = async (
   const publish = new Publish();
 
   let temp = {};
-  const fixVersion = (type = 'up') => {
+  function fixVersion(type = 'up') {
     if (mode === '-n') {
       return;
     }
@@ -140,9 +141,9 @@ module.exports = async (
   };
   const pub = async () => {
     let flag = true;
-    const version = fixVersion();
+
     const pubPath =
-      mode === '-n' ? `${publishPath}_pre` : `${publishPath}/${version}`;
+      mode === '-n' ? `${publishPath}_pre` : `${publishPath}/${pkgVersion}`;
     for (const i in files) {
       const fileName = files[i];
       const isSuccess = await publish.publish(
@@ -176,9 +177,9 @@ module.exports = async (
     gitOpt();
     if (mode === '-p' && flag) {
       if (useTag) {
-        execSync(`git tag v${version} && git push origin v${version}`);
+        execSync(`git tag v${pkgVersion} && git push origin v${pkgVersion}`);
       }
-      await request(version);
+      await request(pkgVersion);
     }
     process.exit(0);
   };
