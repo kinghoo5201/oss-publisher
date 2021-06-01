@@ -4,7 +4,7 @@ const fs = require('fs');
 const path = require('path');
 const { execSync } = require('child_process');
 /**本地构建 */
-module.exports = function(mode, buildCommand = '') {
+module.exports = function (mode, buildCommand = '') {
   const config = require(path.resolve('./', './publish.config'));
   const pkg = require(path.resolve('./', './package.json'));
   console.log(colors.blue('info::开始构建，请稍后...'));
@@ -16,6 +16,9 @@ module.exports = function(mode, buildCommand = '') {
     return;
   }
   const statusUtf8 = status.toString();
+  if (config.ignoreVersion) {
+    return;
+  }
   if (
     statusUtf8.match(/compile done/) &&
     !statusUtf8.match(/compile done/).length
