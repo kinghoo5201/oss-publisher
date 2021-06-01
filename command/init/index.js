@@ -25,6 +25,8 @@ module.exports = {
   cdnRoot: '',
   /** 选择发布分支 */
   pubBranch: 'develop',
+  // 是否忽略版本
+  ignoreVersion:false,
   // build之前的操作，可以用于一些特殊操作
   preBuild:async (mode, pkgVersion)=>{
 

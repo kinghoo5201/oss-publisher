@@ -72,11 +72,14 @@ module.exports = async (
 
   let temp = {};
   function fixVersion(type = 'up') {
+    if (config.ignoreVersion) {
+      return;
+    }
     if (mode === '-n') {
       return;
     }
     let version = pkg.version;
-    const versionArr = version.split('.').map(item => Number(item));
+    const versionArr = version.split('.').map((item) => Number(item));
     let len = 2;
     if (versionPos === '-y') {
       len = 1;
@@ -122,7 +125,7 @@ module.exports = async (
       JSON.stringify(pkg, null, 2)
     );
     return version;
-  };
+  }
 
   const gitOpt = () => {
     try {
@@ -142,8 +145,11 @@ module.exports = async (
   const pub = async () => {
     let flag = true;
 
-    const pubPath =
+    let pubPath =
       mode === '-n' ? `${publishPath}_pre` : `${publishPath}/${pkgVersion}`;
+    if (config.ignoreVersion) {
+      pubPath = publishPath;
+    }
     for (const i in files) {
       const fileName = files[i];
       const isSuccess = await publish.publish(
@@ -167,15 +173,15 @@ module.exports = async (
       console.log(
         colors.green(`文件发布地址：
   ${files
-            .map(item => {
-              return `${config.cdnRoot}${pubPath}/${item}`;
-            })
-            .join('\n')}
+    .map((item) => {
+      return `${config.cdnRoot}${pubPath}/${item}`;
+    })
+    .join('\n')}
       `)
       );
     }
     gitOpt();
-    if (mode === '-p' && flag) {
+    if (mode === '-p' && flag && !config.ignoreVersion) {
       if (useTag) {
         execSync(`git tag v${pkgVersion} && git push origin v${pkgVersion}`);
       }
